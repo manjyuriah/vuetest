@@ -93,7 +93,7 @@
         <!--gray part-->
         <div class="col">
           <div class="card shadow-sm">
-            <canvas id="canvasOutput" class="canvas" width="600" height="300"></canvas>
+            <canvas id="canvasOutput" class="canvas" width="600" height="400"></canvas>
             <div class="card-body">
               <p class="card-text">GRAY</p>
               <a id="link"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="savevideo()">Download</button></a>
@@ -151,13 +151,13 @@
 
 
  <script type="text/javascript">
-  //다운로드 버튼 실행
 
+  //다운로드 버튼 실행
 function savevideo(){
     var canvas =document.getElementById("canvasOutput");
     var link=document.getElementById("link");
-    link.setAttribute("download","blackwhite.mp4");
-    //link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
+    link.setAttribute("download","jaerong.mp4");
+    link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
     }
 
     //회색 전환
@@ -191,9 +191,9 @@ function savevideo(){
       videoElem.addEventListener('canplaythrough', render);
 
       const messages = [
-        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 360},
-        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 360},
-        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 360}
+        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 300},
+        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 300},
+        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 300}
       ];
         let i;
       function render() {
