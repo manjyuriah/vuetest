@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Album example · Bootstrap v5.1</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/">
+    <!-- Bootstrap core CSS -->
+    <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!--opencv-->
+  <script async src="opencv.js" type="text/javascript" onload="onOpenCvReady();"></script>
+  
+  </head>
+  <body>
+    
+<header>
+  <div class="collapse bg-dark" id="navbarHeader">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-7 py-4">
+          <h4 class="text-white">About</h4>
+          <p class="text-muted"></p>
+        </div>
+        <div class="col-sm-4 offset-md-1 py-4">
+          <h4 class="text-white">Contact</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a href="#" class="navbar-brand d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <strong>Album</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Album example</h1>
+        <p id="status">loading...</p>
+        <p>
+          <a href="#" class="btn btn-primary my-2">sample</a>
+          <a href="#" class="btn btn-secondary my-2">sample</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 g-3 text-center">
+
+        <!--color part-->
+        <div class="col">
+          <div class="card shadow-sm">
+            <video id="video" controls class="video"></video>
+            <div class="card-body">
+              <p class="card-text">COLOR</p>
+              <input type="file" name="file" id="fileInput" class="btn btn-sm btn-outline-secondary" onchange="selectedVideo(this);"/>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--gray part-->
+        <div class="col">
+          <div class="card shadow-sm">
+            <canvas id="canvasOutput" class="canvas" width="600" height="300"></canvas>
+            <div class="card-body">
+              <p class="card-text">GRAY</p>
+              <a id="link"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="savevideo()">Download</button></a>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+    
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="text-muted py-5">
+  <div class="container">
+    <p class="float-end mb-1">
+      <a href="#">Back to top</a>
+    </p>
+    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+  </div>
+</footer>
+<!--부트스트랩 js-->
+  <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--input 비디오 출력-->
+  <script>
+
+
+    function selectedVideo (self){
+
+      var file=self.files[0];
+      var reader=new FileReader();
+      reader.onload=function(e){
+        var src=e.target.result;
+        var video=document.getElementById("video");
+        video.setAttribute("video",src);
+        video.load();
+        video.play();
+      };
+      reader.readAsDataURL(file);
+
+      var vid = document.getElementById("fileInput");
+      console.log(vid);
+
+    }
+  </script>
+
+  <!--opencv.js-->
+<!---->
+
+
+ <script type="text/javascript">
+  //다운로드 버튼 실행
+
+function savevideo(){
+    var canvas =document.getElementById("canvasOutput");
+    var link=document.getElementById("link");
+    link.setAttribute("download","blackwhite.mp4");
+    //link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
+    }
+
+    //회색 전환
+    let imgElement = document.getElementById('video');
+    let inputElement = document.getElementById('fileInput');
+
+    inputElement.addEventListener('change', (e) => {
+        imgElement.src = URL.createObjectURL(e.target.files[0]);
+    }, false);
+
+    imgElement.onload = function () {
+
+        let mat = cv.imread(imgElement);
+        let gray = new cv.Mat();
+        cv.cvtColor(mat, gray, cv.COLOR_RGB2GRAY, 0);
+        cv.imshow('canvasOutput', gray);
+        mat.delete();
+    };
+
+    //비디오 출력
+    // 캔버스 다룰 때 기본 세팅, 캔버스콘텍스트 가져오기
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+
+      // 폰트 및 색상 세팅
+      ctx.font = 'bold 30px serif';
+      ctx.fillStyle = '#fff';
+
+
+      const videoElem = document.querySelector('.video');
+      videoElem.addEventListener('canplaythrough', render);
+
+      const messages = [
+        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 360},
+        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 360},
+        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 360}
+      ];
+        let i;
+      function render() {
+        // console.log(videoElem.currentTime);
+        ctx.drawImage(videoElem, 0, 0, 600, 400);
+        var l=messages.length;
+        
+        if (videoElem.currentTime <= 11) {
+            for (i = 0; i < messages.length; i++) {
+                if (videoElem.currentTime > messages[i].time && videoElem.currentTime < messages[i+1].time) {
+                        ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
+                }
+                
+            }
+        }
+        
+        else if(videoElem.currentTime >= 11){
+                ctx.fillText(messages[l-1].message, messages[l-1].x, messages[l-1].y);
+        }
+        requestAnimationFrame(render);
+      }
+
+    //상태 확인
+    function onOpenCvReady() {
+        document.getElementById('status').innerHTML = 'ready';
+    }
+</script>
+
+
+
+</body>
+</html>
