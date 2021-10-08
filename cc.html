@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+    ul,ol{list-style: none; margin: 0; padding: 0;}
+    .input_box{
+        width: 350px;
+        height:auto;
+    }
+    .input_box>input{
+        width: 300px;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+    .btn{
+        width: 80px;
+        height: 30px;
+        border: none;
+        cursor: pointer;
+    }
+    canvas{
+        position: relative;
+    }
+    .cc_box{
+        position: absolute;
+        width: 500px;
+        height: 30px;
+        background-color: rgba(0,0,0,0.8);
+        border-radius: 6px;
+        z-index: 10;
+        
+    }
+    </style>
+</head>
+<body>
+    <h1>뷰 실시간 자막 출력</h1>
+    <div id="root">
+    <video class="video" width="300" height="200" src="jaerong.mp4" controls muted loop></video>
+    <div class="cc_box"style="display: none;"></div>
+    <canvas class="canvas" width="600" height="400">
+        이 브라우저는 캔버스를 지원하지 않습니다.
+    </canvas>
+    <div class="input_box" >
+    <input type="text" placeholder="자막1" v-model="cc1">
+    <input type="text" placeholder="자막2" v-model="cc2">
+    <input type="text" placeholder="자막3" v-model="cc3">
+    </div>
+    <input type="button" value="적용" class="btn" v-on:click="input_cc">
+
+    </div>
+    <script>
+        var app=new Vue({
+        el:"#root",
+        data:{
+            cc1:"",
+            cc2:"",
+            cc3:""
+        },
+        methods:{
+            input_cc(){
+              console.log(this.cc1);
+              console.log(this.cc2);
+              console.log(this.cc3);
+            }
+        }
+    });
+
+      // 캔버스 다룰 때 기본 세팅, 캔버스콘텍스트 가져오기
+      const canvas = document.querySelector('.canvas');
+      const ctx = canvas.getContext('2d');
+
+      // 폰트 및 색상 세팅
+      ctx.font = 'bold 30px serif';
+      ctx.fillStyle = '#fff';
+
+
+      const videoElem = document.querySelector('.video');
+      videoElem.addEventListener('canplaythrough', render);
+
+      const messages = [
+        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 360},
+        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 360},
+        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 360}
+      ];
+        let i;
+      function render() {
+        // console.log(videoElem.currentTime);
+        ctx.drawImage(videoElem, 0, 0, 600, 400);
+        var l=messages.length;
+        
+        if (videoElem.currentTime <= 11) {
+            for (i = 0; i < messages.length; i++) {
+                if (videoElem.currentTime > messages[i].time && videoElem.currentTime < messages[i+1].time) {
+                        ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
+                }
+                
+            }
+        }
+        
+        else if(videoElem.currentTime >= 11){
+                ctx.fillText(messages[l-1].message, messages[l-1].x, messages[l-1].y);
+        }
+        requestAnimationFrame(render);
+      }
+    </script>
+</html>
