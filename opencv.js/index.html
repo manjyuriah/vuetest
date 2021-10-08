@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Album example · Bootstrap v5.1</title>
+    <title>mj vue cc test</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/">
     <!-- Bootstrap core CSS -->
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,6 +18,39 @@
         -moz-user-select: none;
         user-select: none;
       }
+      .logo > a {
+        display: block;
+        width: 223px;
+        height: 45px;
+        background-image: url(./noback_logo.png);
+        background-size: contain;
+        text-indent: -9999px;
+        overflow: hidden;
+      }
+      ul,ol{list-style: none; margin: 0; padding: 0;}
+      .input_box{
+          width: 450px;
+          height:auto;
+          margin-top: -50px;
+      }
+      .input_box > input{
+          width: 400px;
+          height: 40px;
+          margin-bottom: 20px;
+      }
+      .cc_btn{
+          width: 150px !important;
+          height: 50px !important;
+          border: none;
+          cursor: pointer;
+          background-color: #AAA;
+          color: white;
+          font-size: 20px;
+          border-radius: 5px;
+      }
+      .cc_btn:hover{
+        box-shadow: 1px 1px 5px #ccc;
+      }
 
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
@@ -25,8 +58,6 @@
         }
       }
     </style>
-    <!--opencv-->
-  <script async src="opencv.js" type="text/javascript" onload="onOpenCvReady();"></script>
   
   </head>
   <body>
@@ -45,11 +76,9 @@
       </div>
     </div>
   </div>
-  <div class="navbar navbar-dark bg-dark shadow-sm">
+  <div class="navbar navbar-white bg-white shadow-sm">
     <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <strong>Album</strong>
+      <h1 class="logo"><a href="#">파인드커넥트 로고</a></h1>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -103,6 +132,14 @@
             </div>
           </div>
         </div>
+
+        <div class="input_box" >
+          <input type="text" placeholder="자막1" id="cc1">
+          <input type="text" placeholder="자막2" id="cc2">
+          <input type="text" placeholder="자막3" id="cc3">
+          <input type="button" value="적용" class="cc_btn" onclick="input_cc()">
+          </div>
+        </div>
       
     
       </div>
@@ -116,49 +153,49 @@
     <p class="float-end mb-1">
       <a href="#">Back to top</a>
     </p>
-    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+    <ul>
+      <li>회사명 | 주식회사 파인드커넥트</li>
+      <li>대표 | 박현준</li>
+      <li>대표전화 | 02-2038-4158</li>
+      <li>이메일 | fc@findconnect.co.kr</li>
+      <li>주소 | 서울 성동구 상원12길 30 동진아이티타워, 311호</li>
+      <li>통신판매업신고 | 2019-서울성동-01462</li>
+      <li>사업자 등록번호 | 618-86-01352</li>
+      <li>개인정보관리책임자 | 박성용 fatetime@findconnect.co.k</li>
+  </ul>
   </div>
 </footer>
 <!--부트스트랩 js-->
   <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
 
-<!--input 비디오 출력-->
-  <script>
+  <script type="text/javascript">
+    //자막 input 값 변경
+    let cc1;
+    let cc2;
+    let cc3;
+    function input_cc(){
+      cc1=document.getElementById("cc1").value;
+      cc2=document.getElementById("cc2").value;
+      cc3=document.getElementById("cc3").value;
+      console.log(cc1)
+    }
 
-
+    //input 비디오 출력
     function selectedVideo (self){
+          var file=self.files[0];
+          var reader=new FileReader();
+          reader.onload=function(e){
+            var src=e.target.result;
+            var video=document.getElementById("video");
+            video.setAttribute("video",src);
+            video.load();
+            video.play();
+          };
+          reader.readAsDataURL(file);
 
-      var file=self.files[0];
-      var reader=new FileReader();
-      reader.onload=function(e){
-        var src=e.target.result;
-        var video=document.getElementById("video");
-        video.setAttribute("video",src);
-        video.load();
-        video.play();
-      };
-      reader.readAsDataURL(file);
+          var vid = document.getElementById("fileInput");
 
-      var vid = document.getElementById("fileInput");
-      console.log(vid);
-
-    }
-  </script>
-
-  <!--opencv.js-->
-<!---->
-
-
- <script type="text/javascript">
-
-  //다운로드 버튼 실행
-function savevideo(){
-    var canvas =document.getElementById("canvasOutput");
-    var link=document.getElementById("link");
-    link.setAttribute("download","jaerong.mp4");
-    link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
-    }
+        }
 
     //회색 전환
     let imgElement = document.getElementById('video');
@@ -177,25 +214,22 @@ function savevideo(){
         mat.delete();
     };
 
-    //비디오 출력
-    // 캔버스 다룰 때 기본 세팅, 캔버스콘텍스트 가져오기
+    //비디오 자막 출력
       const canvas = document.querySelector('.canvas');
       const ctx = canvas.getContext('2d');
-
-      // 폰트 및 색상 세팅
       ctx.font = 'bold 30px serif';
       ctx.fillStyle = '#fff';
-
 
       const videoElem = document.querySelector('.video');
       videoElem.addEventListener('canplaythrough', render);
 
       const messages = [
-        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 300},
-        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 300},
-        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 300}
+        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 360},
+        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 360},
+        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 360}
       ];
-        let i;
+
+      let i;
       function render() {
         // console.log(videoElem.currentTime);
         ctx.drawImage(videoElem, 0, 0, 600, 400);
@@ -206,22 +240,30 @@ function savevideo(){
                 if (videoElem.currentTime > messages[i].time && videoElem.currentTime < messages[i+1].time) {
                         ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
                 }
-                
             }
         }
-        
         else if(videoElem.currentTime >= 11){
                 ctx.fillText(messages[l-1].message, messages[l-1].x, messages[l-1].y);
         }
         requestAnimationFrame(render);
       }
 
+
+  //다운로드 버튼 실행
+  function savevideo(){
+    var canvas =document.getElementById("canvasOutput");
+    var link=document.getElementById("link");
+    link.setAttribute("download","blackwhite.mp4");
+    //link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
+    }
+
     //상태 확인
     function onOpenCvReady() {
         document.getElementById('status').innerHTML = 'ready';
     }
 </script>
-
+<!--opencv-->
+<script async src="opencv.js" type="text/javascript" onload="onOpenCvReady();"></script>
 
 
 </body>
