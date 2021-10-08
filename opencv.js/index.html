@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>mj vue cc test</title>
+    <title>mj cc test</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/">
     <!-- Bootstrap core CSS -->
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,14 +29,35 @@
       }
       ul,ol{list-style: none; margin: 0; padding: 0;}
       .input_box{
-          width: 450px;
+          width: 550px;
           height:auto;
           margin-top: -50px;
       }
-      .input_box > input{
+      .input_box>li{
+        width: 600px;
+        height: auto;
+        margin-bottom: 20px;
+        display: inline-block
+      }
+      #t1,#t2,#t3{
+          width: 80px;
+          height: 40px;
+          margin-left:10px;
+          font-size: 13px;
+          text-indent: 3px;
+      }
+      #cc1,#cc2,#cc3{
           width: 400px;
           height: 40px;
-          margin-bottom: 20px;
+          font-size: 13px;
+          text-indent: 3px;
+      }
+      #p1,#p2,#p3{
+          width: 80px;
+          height: 40px;
+          margin-left:10px;
+          font-size: 13px;
+          text-indent: 3px;
       }
       .cc_btn{
           width: 150px !important;
@@ -91,7 +112,7 @@
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Album example</h1>
+        <h1 class="fw-bolder" style="color: #441e7a;">FIND CONNECT</h1>
         <p id="status">loading...</p>
         <p>
           <a href="#" class="btn btn-primary my-2">sample</a>
@@ -110,7 +131,7 @@
           <div class="card shadow-sm">
             <video id="video" controls class="video"></video>
             <div class="card-body">
-              <p class="card-text">COLOR</p>
+              <p class="card-text">내 영상</p>
               <input type="file" name="file" id="fileInput" class="btn btn-sm btn-outline-secondary" onchange="selectedVideo(this);"/>
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted">9 mins</small>
@@ -124,7 +145,7 @@
           <div class="card shadow-sm">
             <canvas id="canvasOutput" class="canvas" width="600" height="400"></canvas>
             <div class="card-body">
-              <p class="card-text">GRAY</p>
+              <p class="card-text">미리보기</p>
               <a id="link"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="savevideo()">Download</button></a>
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted">9 mins</small>
@@ -133,12 +154,29 @@
           </div>
         </div>
 
-        <div class="input_box" >
-          <input type="text" placeholder="자막1" id="cc1">
-          <input type="text" placeholder="자막2" id="cc2">
-          <input type="text" placeholder="자막3" id="cc3">
-          <input type="button" value="적용" class="cc_btn" onclick="input_cc()">
-          </div>
+        <ol class="input_box" >
+          <li>
+            <input type="text" placeholder="자막1" id="cc1">
+            <input type="text" placeholder="자막 시간1" id="t1">
+            <!--<input type="text" placeholder="위치1" id="p1">-->
+          </li>
+          <li>
+            <input type="text" placeholder="자막2" id="cc2">
+            <input type="text" placeholder="자막 시간2" id="t2">
+            <!--<input type="text" placeholder="위치2" id="p2">-->
+          </li>
+          <li>
+            <input type="text" placeholder="자막3" id="cc3">
+            <input type="text" placeholder="자막 시간3" id="t3">
+            <!--<input type="text" placeholder="위치3" id="p3">-->
+          </li>
+          <input type="button" value="적용" class="cc_btn" onclick="selectedVideo(this);" style="display: none;">
+            <div style="color: #aaa; font-size: 14px; display: none;">
+              *자막이 출력되는 높이는 동일합니다. 가로 위치만 설정해주세요<br>
+              [권장 자막 위치] ~29글자 20 , ~15글자 180 , ~5글자 250
+            </div>
+        </ol>
+
         </div>
       
     
@@ -169,19 +207,18 @@
   <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
 
   <script type="text/javascript">
-    //자막 input 값 변경
+    //자막 내용 
     let cc1;
     let cc2;
     let cc3;
-    function input_cc(){
-      cc1=document.getElementById("cc1").value;
-      cc2=document.getElementById("cc2").value;
-      cc3=document.getElementById("cc3").value;
-      console.log(cc1)
-    }
+    //자막 시작 시간
+    let t1;
+    let t2;
+    let t3;
 
     //input 비디오 출력
     function selectedVideo (self){
+
           var file=self.files[0];
           var reader=new FileReader();
           reader.onload=function(e){
@@ -192,8 +229,51 @@
             video.play();
           };
           reader.readAsDataURL(file);
-
           var vid = document.getElementById("fileInput");
+          
+          cc1=document.getElementById("cc1").value;
+          cc2=document.getElementById("cc2").value;
+          cc3=document.getElementById("cc3").value;
+
+          t1=document.getElementById("t1").value;
+          t2=document.getElementById("t2").value;
+          t3=document.getElementById("t3").value;
+
+        //비디오 자막 출력
+        const canvas = document.querySelector('.canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.font = 'bold 20px Noto Sans Korean';
+        ctx.fillStyle = '#fff';
+
+        const videoElem = document.querySelector('.video');
+        videoElem.addEventListener('canplaythrough', render);
+
+        const messages = [
+          {time: t1, message: cc1, x: 300, y: 380},
+          {time: t2, message: cc2, x: 300, y: 380},
+          {time: t3, message: cc3, x: 300, y: 380}
+        ];
+
+        const last_index = messages.length - 1
+
+        function render() {
+          
+          ctx.drawImage(videoElem, 0, 0, 600, 400);
+
+          if (videoElem.currentTime <= messages[last_index].time + 5) {
+            for (let i = 1; i < messages.length; i++) {
+              if (videoElem.currentTime > messages[i - 1].time && videoElem.currentTime < messages[i].time) {
+                ctx.fillText(messages[i - 1].message, messages[i - 1].x, messages[i - 1].y);
+                ctx.textAlign="center";
+              }
+              else if (i === last_index && videoElem.currentTime > messages[last_index].time) {
+                ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
+                ctx.textAlign="center";
+              }
+            }
+          }
+          requestAnimationFrame(render);
+        }
 
         }
 
@@ -214,39 +294,7 @@
         mat.delete();
     };
 
-    //비디오 자막 출력
-      const canvas = document.querySelector('.canvas');
-      const ctx = canvas.getContext('2d');
-      ctx.font = 'bold 30px serif';
-      ctx.fillStyle = '#fff';
-
-      const videoElem = document.querySelector('.video');
-      videoElem.addEventListener('canplaythrough', render);
-
-      const messages = [
-        {time: 3, message: 'API 문서 작성중 입니다.', x: 150, y: 360},
-        {time: 7, message: '백엔드 개발자의 코드 작성', x: 150, y: 360},
-        {time: 11, message: '잠시 감상합시다~!', x: 150, y: 360}
-      ];
-
-      let i;
-      function render() {
-        // console.log(videoElem.currentTime);
-        ctx.drawImage(videoElem, 0, 0, 600, 400);
-        var l=messages.length;
-        
-        if (videoElem.currentTime <= 11) {
-            for (i = 0; i < messages.length; i++) {
-                if (videoElem.currentTime > messages[i].time && videoElem.currentTime < messages[i+1].time) {
-                        ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
-                }
-            }
-        }
-        else if(videoElem.currentTime >= 11){
-                ctx.fillText(messages[l-1].message, messages[l-1].x, messages[l-1].y);
-        }
-        requestAnimationFrame(render);
-      }
+    
 
 
   //다운로드 버튼 실행
@@ -261,10 +309,10 @@
     function onOpenCvReady() {
         document.getElementById('status').innerHTML = 'ready';
     }
-</script>
+  </script>
+
 <!--opencv-->
 <script async src="opencv.js" type="text/javascript" onload="onOpenCvReady();"></script>
-
 
 </body>
 </html>
