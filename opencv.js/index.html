@@ -10,76 +10,9 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/">
     <!-- Bootstrap core CSS -->
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-      .logo > a {
-        display: block;
-        width: 223px;
-        height: 45px;
-        background-image: url(./noback_logo.png);
-        background-size: contain;
-        text-indent: -9999px;
-        overflow: hidden;
-      }
-      ul,ol{list-style: none; margin: 0; padding: 0;}
-      .input_box{
-          width: 550px;
-          height:auto;
-          margin-top: -50px;
-      }
-      .input_box>li{
-        width: 600px;
-        height: auto;
-        margin-bottom: 20px;
-        display: inline-block
-      }
-      #t1,#t2,#t3{
-          width: 80px;
-          height: 40px;
-          margin-left:10px;
-          font-size: 13px;
-          text-indent: 3px;
-      }
-      #cc1,#cc2,#cc3{
-          width: 400px;
-          height: 40px;
-          font-size: 13px;
-          text-indent: 3px;
-      }
-      #p1,#p2,#p3{
-          width: 80px;
-          height: 40px;
-          margin-left:10px;
-          font-size: 13px;
-          text-indent: 3px;
-      }
-      .cc_btn{
-          width: 150px !important;
-          height: 50px !important;
-          border: none;
-          cursor: pointer;
-          background-color: #AAA;
-          color: white;
-          font-size: 20px;
-          border-radius: 5px;
-      }
-      .cc_btn:hover{
-        box-shadow: 1px 1px 5px #ccc;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-  
+    <link rel="stylesheet" type="text/css" href="./video.css">
+    <script src="../../jquery.js"></script>
+    
   </head>
   <body>
     
@@ -122,6 +55,63 @@
     </div>
   </section>
 
+  <section class="giude sec" id="sec2">
+    <div class="inner">
+        <p class="sub_title">
+            사용자가 업로드한 영상을 분석해 어울리는 폰트 및 음악을 선정하고 조합하는 기술입니다.
+        </p>
+        <div class="guide_con">
+            <ol>
+                <li>
+                    <img src="./outline_person_black_48dp.png" alt="사용자 아이콘">
+                    <p>
+                        사용자가 플랫폼에 <br>
+                        합성하고자 하는 자막 입력
+                    </p>
+                </li>
+                <li>
+                    <img src="./outline_sync_black_48dp.png" alt="분석 아이콘">
+                    <p>
+                        영상을 업로드하고 <br>
+                        폰트와 음악 소스 찾기
+                    </p>
+                </li>
+                <li>
+                    <img src="./outline_ondemand_video_black_48dp.png" alt="이미지 아이콘">
+                    <p>
+                        영상 정보에 맞는 폰트 및 <br>
+                        음악 선정 완료
+                    </p>
+                </li>
+            </ol>
+        </div>
+        <a class="btn" id="make" style="display: none;">만들기</a>
+    </div>
+</section>
+<!--자막-->
+<ol class="input_box" >
+  <li>
+    <input type="text" placeholder="자막1" id="cc1" maxlength="30">
+    <input type="text" placeholder="자막 시간1" id="t1">
+    <!--<input type="text" placeholder="위치1" id="p1">-->
+  </li>
+  <li>
+    <input type="text" placeholder="자막2" id="cc2" maxlength="30">
+    <input type="text" placeholder="자막 시간2" id="t2">
+    <!--<input type="text" placeholder="위치2" id="p2">-->
+  </li>
+  <li>
+    <input type="text" placeholder="자막3" id="cc3" maxlength="30">
+    <input type="text" placeholder="자막 시간3" id="t3">
+    <!--<input type="text" placeholder="위치3" id="p3">-->
+  </li>
+  <input type="button" value="적용" class="cc_btn" onclick="selectedVideo(this);" style="display: none;">
+    <div style="color: #aaa; font-size: 14px;">
+      *자막은 최대 30자<br>
+      
+    </div>
+</ol>
+
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 g-3 text-center">
@@ -146,7 +136,7 @@
             <canvas id="canvasOutput" class="canvas" width="600" height="400"></canvas>
             <div class="card-body">
               <p class="card-text">미리보기</p>
-              <a id="link"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="savevideo()">Download</button></a>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="savevideo()">Download</button>
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted">9 mins</small>
               </div>
@@ -154,28 +144,7 @@
           </div>
         </div>
 
-        <ol class="input_box" >
-          <li>
-            <input type="text" placeholder="자막1" id="cc1">
-            <input type="text" placeholder="자막 시간1" id="t1">
-            <!--<input type="text" placeholder="위치1" id="p1">-->
-          </li>
-          <li>
-            <input type="text" placeholder="자막2" id="cc2">
-            <input type="text" placeholder="자막 시간2" id="t2">
-            <!--<input type="text" placeholder="위치2" id="p2">-->
-          </li>
-          <li>
-            <input type="text" placeholder="자막3" id="cc3">
-            <input type="text" placeholder="자막 시간3" id="t3">
-            <!--<input type="text" placeholder="위치3" id="p3">-->
-          </li>
-          <input type="button" value="적용" class="cc_btn" onclick="selectedVideo(this);" style="display: none;">
-            <div style="color: #aaa; font-size: 14px; display: none;">
-              *자막이 출력되는 높이는 동일합니다. 가로 위치만 설정해주세요<br>
-              [권장 자막 위치] ~29글자 20 , ~15글자 180 , ~5글자 250
-            </div>
-        </ol>
+       
 
         </div>
       
@@ -244,9 +213,10 @@
         const ctx = canvas.getContext('2d');
         ctx.font = 'bold 20px Noto Sans Korean';
         ctx.fillStyle = '#fff';
-
+        
         const videoElem = document.querySelector('.video');
         videoElem.addEventListener('canplaythrough', render);
+        
 
         const messages = [
           {time: t1, message: cc1, x: 300, y: 380},
@@ -257,18 +227,27 @@
         const last_index = messages.length - 1
 
         function render() {
-          
           ctx.drawImage(videoElem, 0, 0, 600, 400);
 
           if (videoElem.currentTime <= messages[last_index].time + 5) {
             for (let i = 1; i < messages.length; i++) {
               if (videoElem.currentTime > messages[i - 1].time && videoElem.currentTime < messages[i].time) {
+                ctx.fillStyle='rgba(0,0,0,0.5)'
+                ctx.fillRect(5,355,590,35);
+                ctx.fillStyle = '#fff';
                 ctx.fillText(messages[i - 1].message, messages[i - 1].x, messages[i - 1].y);
                 ctx.textAlign="center";
+
+
               }
               else if (i === last_index && videoElem.currentTime > messages[last_index].time) {
+                ctx.fillStyle='rgba(0,0,0,0.5)'
+                ctx.fillRect(5,355,590,35);
+                ctx.fillStyle = '#fff';
                 ctx.fillText(messages[i].message, messages[i].x, messages[i].y);
                 ctx.textAlign="center";
+
+
               }
             }
           }
@@ -298,12 +277,20 @@
 
 
   //다운로드 버튼 실행
-  function savevideo(){
-    var canvas =document.getElementById("canvasOutput");
-    var link=document.getElementById("link");
-    link.setAttribute("download","blackwhite.mp4");
-    //link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
-    }
+   function savevideo(){
+     const canvas=document.getElementById("canvasOutput");
+     const video_download=canvas.toDataURL();
+     const link=document.createElement("a");
+     link.href=video_download;
+     console.log(link)
+     link.download="image.png"
+     link.click();
+  //   var video_download =document.getElementById("canvasOutput");
+  //   var link=document.getElementById("link");
+  //   link.setAttribute("download","blackwhite.mp4");
+  //   //link.setAttribute("href",canvas.toDataUrl("mp4/avi").replace("mp4/avi","application/octet-stream"));
+     }
+     document.querySelector('button').addEventListener('click', download)
 
     //상태 확인
     function onOpenCvReady() {
@@ -313,6 +300,7 @@
 
 <!--opencv-->
 <script async src="opencv.js" type="text/javascript" onload="onOpenCvReady();"></script>
+
 
 </body>
 </html>
